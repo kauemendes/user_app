@@ -1,0 +1,9 @@
+version: '2'
+services:
+  api:
+    environment:
+      APP_SETTINGS: config.DevelopmentContainerConfig
+
+  backend:
+    environment:
+      APP_SETTINGS: config.DevelopmentContainerConfig
