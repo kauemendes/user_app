@@ -13,6 +13,7 @@ Flask-Redis==0.3.0
 Flask-Migrate==2.0.2
 Flask-Script==2.0.5
 Flask-WTF==0.13.1
+Flask-JWT
 Flask-Testing==0.6.1
 flask_restful_swagger
 flask-cors
@@ -28,5 +29,6 @@ itsdangerous==0.23
 passlib==1.6.1
 PyMySQL==0.7.9
 newrelic
+validate_email
 ics
 typing

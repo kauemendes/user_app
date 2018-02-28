@@ -3,10 +3,11 @@
 
 import os
 
-from app import urls
-from app.utils import prepare_json_response
+import datetime
+from flask_httpauth import HTTPBasicAuth
+
 from flask_bcrypt import Bcrypt
-from flask import Flask, jsonify, render_template, render_template_string
+from flask import Flask, jsonify, render_template, render_template_string, g
 from flask_restful import Api
 
 from flask_restful_swagger import swagger
@@ -18,28 +19,23 @@ from flask_compress import Compress
 from flask_cache import Cache
 
 # Initialize a developmentConfig in case of APP_SETTINGS not provided
+
 app_settings = os.getenv('APP_SETTINGS', 'config.DevelopmentConfig')
 
-
-# Initialize core objects
-class Application(Flask):
-    # Initiate Application Flask with TWO databases
-    def __init__(self):
-        super(Application, self, ).__init__("Ingresse App", template_folder='templates', static_folder='templates/static')
-        db.init_app(self)
-
+app = Flask(__name__, template_folder='templates', static_folder='templates/static')
+Compress(app)
 
 # create multiple sqlalchemy engines
-db = SQLAlchemy()
-
-# start application
-app = Application()
+db = SQLAlchemy(app)
 
 cache = Cache(config={'CACHE_TYPE': 'simple'})
 cache.init_app(app)
 
 # set config parameters
 app.config.from_object(app_settings)
+
+# auth basic
+auth = HTTPBasicAuth()
 
 # Compress Extenstion
 Compress(app)
@@ -69,24 +65,48 @@ api = swagger.docs(Api(app),
                        "application/msgpack"
                    ])
 
+
+from app.utils import prepare_json_response
+
 # Inicia as rotas da api
-from app.urls import StartApi
-StartApi(api)
+from app import urls
+urls.StartApi(api)
 
 
-@app.route('/confirm/<token>')
-# @oauth.require_oauth('user')
+@auth.verify_password
+def verify_password(username, password):
+    from app.user.model import User
+
+    user = User.query.filter_by(username=username).first()
+    if not user or not user.verify_password(password):
+        return False
+    g.user = user
+    return True
+
+
+@app.route('/v1/api/token')
+@auth.login_required
+def get_auth_token():
+    token = g.user.generate_auth_token()
+    return jsonify({'token': token.decode('ascii')})
+
+
+@app.route('/v1/user/confirm/<token>')
 def confirm_email(token):
     from app.helper_kit.string_kit import StringKit
     from app.helper_kit.response_kit import ResponseReturnKit
     from app.user.model import User
 
     try:
-        email = StringKit.confirm_token(token)
+        username = StringKit.confirm_token(token)
     except Exception as e:
         ResponseReturnKit.error400('The confirmation link is invalid or has expired.')
 
-    user = User.query.filter_by(username=email).first_or_404()
+    user = User.query.filter_by(username=username).first_or_404()
+    if user:
+        user.confirmed = True
+        user.confirmed_on = datetime.datetime.now()
+        db.session.commit()
 
     return render_template_string(
         """

@@ -18,14 +18,10 @@ RUN unlink /etc/localtime && ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/lo
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-RUN chmod +x ./migrations.sh
-
 # For /var/log availability
 VOLUME /var/log/
 
 # Run Migration #TODO precisa fazer remover a tabela anterior
 RUN chmod +x ./run.sh
-
-RUN chmod 777 /data/app/tmp_files
 
 CMD ["./run.sh"]
