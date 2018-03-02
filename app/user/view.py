@@ -36,6 +36,7 @@ class UserResource(Resource):
         try:
             return UserController.update_user(request.json)
         except Exception as e:
+
             return ResponseReturnKit.error400((str(e)))
 
 

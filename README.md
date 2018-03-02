@@ -46,7 +46,7 @@ $ `docker-compose -f docker-compose.yml -f prod.yml up --build` you can add `-d`
 3. After building all environments you can access on your browse http://api.ingresse.local/
 
 4. To create a new user on your new api use the following command: 
-$ `curl -H "Content-Type: application/json" -X POST -d '{"username": "john", "email": "", "password": "JohnDoe@01", "password_confirm": "JohnDoe@01"}' http://api.ingresse.local/v1/user`
+$ `curl -H "Content-Type: application/json" -X POST -d '{"username": "john", "password": "JohnDoe@01", "password_confirm": "JohnDoe@01"}' http://api.ingresse.local/v1/user`
 Basically you have to send a post request to /v1/user 
 
 [POST] /v1/user - Creates a new user with {"username": string, "email": *string, "password": string, "password_confirm": string} - *for optional 
@@ -60,3 +60,31 @@ Using basic authentication on header {"Authorization":"Basic TOKEN"}
 
 5. For authenticate on /v1/api/token
 $ `curl -u john:JohnDoe@01 -i -X GET http://api.ingresse.local/v1/api/token`
+Response:
+    HTTP/1.0 200 OK
+    Content-Type: application/json
+    Content-Length: 135
+    Access-Control-Allow-Origin: *
+    Server: Werkzeug/0.11.11 Python/3.5.2
+    Date: Fri, 02 Mar 2018 21:29:18 GMT
+    
+    {"token": "eyJhbGciOiJIUzI1NiIsImV4cCI6MTUyMDAyNzM1OCwiaWF0IjoxNTIwMDI2MTU4fQ.eyJpZCI6MX0.85X0ilvlKxYJwzwAJ-oZfYjhBU4AxSA0o7LJ_Me-4s4"}
+
+6. Get information on /v1/user
+$ `curl -u eyJhbGciOiJIUzI1NiIsImV4cCI6MTUyMDAyNzM1OCwiaWF0IjoxNTIwMDI2MTU4fQ.eyJpZCI6MX0.85X0ilvlKxYJwzwAJ-oZfYjhBU4AxSA0o7LJ_Me-4s4:unused -i -X GET http://api.ingresse.local/v1/user`
+Response:
+    HTTP/1.0 200 OK
+    Content-Type: application/json
+    Content-Length: 130
+    Access-Control-Allow-Origin: *
+    Server: Werkzeug/0.11.11 Python/3.5.2
+    Date: Fri, 02 Mar 2018 21:34:48 GMT
+    
+    {
+        "email": null,
+        "last_name": null,
+        "name": null,
+        "preferences": null,
+        "user_id": 1,
+        "username": "john"
+    }

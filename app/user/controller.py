@@ -41,7 +41,9 @@ class UserController(object):
         if not ValidateKit.validate_email(email):
             return ResponseReturnKit.error400("Email is invalid")
 
-        user = User(username=username, email=email)
+        user = User(username=username)
+        if email:
+            user.email = email
         user.hash_password(password)
         user.registered_on = datetime.datetime.now()
         db.session.add(user)
