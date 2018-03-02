@@ -5,6 +5,8 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    environment:
+      APP_SETTINGS: config.ProductionConfig
   nginx-server:
     restart: always
     image: nginx:1.11.9

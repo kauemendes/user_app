@@ -23,6 +23,5 @@ VOLUME /var/log/
 
 # Run Migration #TODO precisa fazer remover a tabela anterior
 RUN chmod +x ./docker-entrypoint.sh
-COPY docker-entrypoint.sh /usr/local/bin
 
 CMD ["./docker-entrypoint.sh"]
