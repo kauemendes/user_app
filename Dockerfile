@@ -25,4 +25,4 @@ VOLUME /var/log/
 RUN chmod +x ./docker-entrypoint.sh
 COPY docker-entrypoint.sh /usr/local/bin
 
-CMD ["docker-entrypoint.sh"]
+CMD ["./docker-entrypoint.sh"]
