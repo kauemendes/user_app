@@ -1,6 +1,6 @@
 FROM python:3.5.0
 
-ADD ./medt-backend /data
+ADD . /data
 WORKDIR /data
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -22,6 +22,7 @@ RUN pip install -r requirements.txt
 VOLUME /var/log/
 
 # Run Migration #TODO precisa fazer remover a tabela anterior
-RUN chmod +x ./run.sh
+RUN chmod +x ./docker-entrypoint.sh
+COPY docker-entrypoint.sh /usr/local/bin
 
-CMD ["./run.sh"]
+CMD ["docker-entrypoint.sh"]

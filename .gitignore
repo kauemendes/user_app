@@ -9,6 +9,7 @@ __pycache__/
 *.so
 
 *.sqlite
+/tmp
 
 # Distribution / packaging
 .Python

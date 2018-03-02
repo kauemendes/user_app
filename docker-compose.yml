@@ -5,8 +5,8 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    environment:
-      APP_SETTINGS: config.DevelopmentContainerConfig
+  redis:
+    image: redis:3.0-alpine
   nginx-server:
     restart: always
     image: nginx:1.11.9
@@ -19,5 +19,6 @@ services:
       - ./config/nginx.conf:/etc/nginx/nginx.conf
     links:
       - backend
+      - redis
     depends_on:
       - backend

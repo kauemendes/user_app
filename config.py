@@ -62,11 +62,12 @@ class BaseConfig(object):
 
 
 class DevelopmentConfig(BaseConfig):
+    print(os.path.join(basedir, 'dev.sqlite'))
     """Development configuration."""
     DEBUG = True
     BCRYPT_LOG_ROUNDS = 4
     WTF_CSRF_ENABLED = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'dev.sqlite')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////Users/kauemendes/www/test/ingresse/dev.sqlite'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = False
     DEBUG_TB_ENABLED = True
 
@@ -110,9 +111,10 @@ class HomologConfig(BaseConfig):
 class ProductionConfig(BaseConfig):
     """Production configuration."""
 
+    print(os.path.join(basedir, 'prod.sqlite'))
     SECRET_KEY = 'my_prod_config_master'
-    DEBUG = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'homolog.sqlite')
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////data/prod.sqlite'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_COMMIT_ON_TEARDOWN = False
     DEBUG_TB_ENABLED = False
