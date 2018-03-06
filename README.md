@@ -60,7 +60,7 @@ Using basic authentication on header {"Authorization":"Basic TOKEN"}
 
 5. For authenticate on /v1/api/token
 $ `curl -u john:JohnDoe@01 -i -X GET http://api.ingresse.local/v1/api/token`
-`
+
 Response:
     HTTP/1.0 200 OK
     Content-Type: application/json
@@ -70,11 +70,10 @@ Response:
     Date: Fri, 02 Mar 2018 21:29:18 GMT
 
     {"token": "eyJhbGciOiJIUzI1NiIsImV4cCI6MTUyMDAyNzM1OCwiaWF0IjoxNTIwMDI2MTU4fQ.eyJpZCI6MX0.85X0ilvlKxYJwzwAJ-oZfYjhBU4AxSA0o7LJ_Me-4s4"}
-`
 
 6. Get information on /v1/user
 $ `curl -u eyJhbGciOiJIUzI1NiIsImV4cCI6MTUyMDAyNzM1OCwiaWF0IjoxNTIwMDI2MTU4fQ.eyJpZCI6MX0.85X0ilvlKxYJwzwAJ-oZfYjhBU4AxSA0o7LJ_Me-4s4:unused -i -X GET http://api.ingresse.local/v1/user`
-`
+
 Response:
     HTTP/1.0 200 OK
     Content-Type: application/json
@@ -91,4 +90,3 @@ Response:
         "user_id": 1,
         "username": "john"
     }
-`
